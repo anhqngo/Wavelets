@@ -1,0 +1,87 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[backend=bibtex]{biblatex}
+\addbibresource{sample.bib}
+
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+
+\title{Using biblatex for an annotated bibliography}
+\author{David Lippel}
+\date{2019-02-04}
+
+\begin{document}
+
+\begin{abstract}       
+In this note, I illustrate one way to produce an annotated bibliography with the biblatex package.
+\end{abstract} 
+
+\maketitle
+
+
+
+
+\section{Introduction}
+
+The \LaTeX\ template document that is posted on Moodle has general information about biblatex. 
+For completeness, the current document does repeat some of the information from the template, 
+but if you don't yet know how BibTeX/biblatex works in general, then you will need to consult the template file.
+
+\section{biblatex essentials}
+
+Here are the  essential features of the current document that allow biblatex to function.
+\begin{itemize}
+\item At the beginning of the source file, we have the lines
+\begin{verbatim}
+\usepackage[backend=bibtex]{biblatex}
+\addbibresource{sample.bib}
+\end{verbatim}
+\item In the same directory as the source file, there is a file called \texttt{sample.bib} which contains the bibliographic records. 
+The name of this file is referenced in the \verb+\addbibresource+ command above. 
+If you use a different name for your \texttt{.bib} file, don't forget to update the %\verb+\addbibresource+ 
+command.
+\end{itemize}
+
+\section{Typesetting references with annotations}
+
+In a typical document, we would use the biblatex command \verb+\printbibliography+  
+at the very end of the source file in order to print the whole reference list. 
+However, in an annotated bibliography, we want individual biblographic entries to be interspersed with text. 
+To typeset an individual bibliographic entry, we can use the \verb+\fullcite{...}+ command. 
+Like the \verb+\cite{...}+ command, the argument for \verb+\fullcite+ is the citation key from the \texttt{.bib} file.
+(Recall: the citation key is how you reference a bibliographic item, and it is the first field in a BibTeX record. 
+If you get your BibTex data from an online resource,  the default citation key maybe be obscure;
+you can edit your \texttt{.bib} file to make the citation keys memorable.)
+
+Below, I have provided a sample annotated bibliography; look at the source code to see how the \verb+\fullcite+ command works.
+
+\subsection{My rather useless annotated bibliography}\footnote{Yours should be more thoughtful!}
+
+\begin{enumerate}
+\item \fullcite{MR1531724}
+
+\smallskip
+When Carl Allendoerfer wrote this article, he was retiring as the President of the Mathematical Association of American and was a faculty member at the University of Washington; previously, he had been a professor at Haverford College. (You can see Allendoerfer's photo in H215, the computer room off the math lounge.)
+
+\item \fullcite{tabu}
+
+\smallskip
+This online resource is only for seriously fussy \LaTeX ers.
+
+\item \fullcite{Di1988}
+
+\smallskip
+This looks interesting, but I haven't read it yet.
+\end{enumerate}
+
+
+
+
+\section{Workflow}\label{workflow}
+
+Typesetting a \LaTeX\ source file that uses biblatex is slightly more complicated than typesetting a plain vanilla \LaTeX\ document. If you are using a \LaTeX\ system installed on a PC or Mac, you should consult the template file for the extra steps. 
+A nice alternative is to use the online \LaTeX\ service \href{https://www.overleaf.com/}{Overleaf}. 
+On Overleaf, BibTeX processing is done automatically, without any extra steps. 
+An account on Overleaf is free. (However, synchronization with Dropbox is a premium feature. If you use the free version and thus don't have an automatic backup, I recommend that you export your project periodically to keep a local copy.)
+
+\end{document}
+
