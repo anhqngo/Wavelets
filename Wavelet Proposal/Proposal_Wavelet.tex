@@ -1,0 +1,91 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[letterpaper,left=125pt,right=125pt]{geometry}
+
+\usepackage[english]{babel}
+\usepackage {amsmath} 
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[colorlinks,linkcolor=blue, citecolor=blue,urlcolor=blue]{hyperref} % typesets URLS and clickable cross-references and links
+%\usepackage{hyperref} % if you don't want colored links, just use the simpler command
+\usepackage[backend=bibtex]{biblatex}
+
+%% Environments for theorems, etc.. 
+\theoremstyle{theorem} % set the style for the following theorems
+\newtheorem{thm}{Theorem}[section] %\newtheorem{name}{display-text}[numbered-within]
+\newtheorem{lem}[thm]{Lemma} %\newtheorem{name}[numbered-like]{display-text}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{alg}[thm]{Algorithm}
+\theoremstyle{definition}                  % switch to a different style
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\theoremstyle{example}                       % another style
+\newtheorem{prob}[thm]{Problem}
+\theoremstyle{remark}                       % another style
+\newtheorem{exmp}[thm]{Example}  % (note:the "example" style is not really good for long examples-- typesets them in italics!)
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{claim}[thm]{Claim}  
+\renewcommand{\theclaim}{}
+%% If you use numbered equations in a long document, it is preferred to number
+% as (x.y), where x is section number, y is equation number
+
+\numberwithin{equation}{section}
+
+
+%% Common typesetting for common mathematical objects
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\dimension}{dim}
+
+\title{Introduction to Wavelets in Image Processing}
+\author{Jason Ngo}
+\date{2019-01-21}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Since the start of the 20th century, we have seen rapid development in the theory and applications of wavelets. 
+
+"As a mathematical tool, wavelets can be used to extract information from many different kinds of data, including – but not limited to – audio signals and images. " (wikipedia).
+
+This paper will aim to provide a general introduction to wavelets in the context of image processing.
+
+This paper will explore what wavelets are, exampes of wavelets (particularly the Haar wavelet), prove that wavelets form an orthonormal basis for $ L^2(\R) $ (and why we want a orthonormal basis in the first place), and its application to image compression (or edge detection of the Haar wavelets).
+
+Compression applications: when compressing images, we want to discard the least significant details, keeping the original picture largely intact. Wavelets are superior to Fourier series in this sense because we can isolate and decompose a signal (a picture is just a bunch of pixels and can be represented as signals) into low frequency part and high frequency part. If we remove the high frequency, we get a smoother representation of the figure.
+
+Haar basis is very good for edge detection. Maybe talk about this.
+
+``Along this vein, the book by Strang and Nguyen describes a widely used application of wavelets, fingerprint compression, in which edge detection figures prominently." (Standford book)
+
+\section{Research Hypothesis/Question}
+
+Davidson and Donsig does give a terse proof why the Haar wavelets system forms an orthonormal basis for $ L^2(\R) $. My job is to take ownership of the proof by rewriting it, come up with examples/illustrations, and a discussion of why we want the Haar Wavelets system to form an orthonormal basis in the context of edge detection.
+
+After proving these properties of Haar Wavelet, I can go into the application in edge detection (or whatever application that I decided on). This part will likely use some Linear Algebra and visualization.
+
+So the bulk of the mathematical reasoning will be in the proof that Haar system is orthonormal. I'm not sure if this is sufficient or not. But I can read more about the application of the Haar system, and see what properties are needed for that application. I can then proceed to prove those properties.
+
+\section{Definitions}
+
+Wavelets
+
+Haar system (maybe examples)
+
+$ L^2(\R) $ space
+
+Orthonormal basis
+ 
+\section{Annotated Bibliography}
+
+\end{document}
+
