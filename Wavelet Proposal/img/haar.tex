@@ -1,0 +1,22 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+%\pgfplotsset{compat=1.8}
+\begin{document}
+	\begin{tikzpicture}[
+	declare function={
+		func(\x)= (\x < 1/2) * (1)   +
+		and(\x >= 1/2, \x < 1) * (-1)
+		;
+	}
+	]
+	\begin{axis}[
+	axis x line=middle, axis y line=middle,
+	ymin=-2, ymax=2, ytick={-5,...,5}, ylabel=$y$,
+	xmin=0, xmax=5, xtick={-5,...,5}, xlabel=$x$,
+	domain=-pi:pi,samples=101, % added
+	]
+	
+	\addplot [black,thick] {func(x)};
+	\end{axis}
+	\end{tikzpicture} 
+\end{document}
