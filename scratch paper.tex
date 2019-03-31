@@ -43,6 +43,61 @@
 \author{Jason Ngo}
 \begin{document}
 	
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/approximations}
+		\caption{Approximations of $ f(x) = e^{-x} \sin{2\pi x} $ using Haar wavelets \cite{lepik}}
+		\label{fig:approximations}
+	\end{figure}
+	
+	
+	-------------------------
+	
+	Let $ C_c (\R) $ denote the set of continuous functions such that $ \supp(f) $ is a compact set.
+	Since we know that $ C_c(\R) $ is dense in $ L^2(\R) $\footnote{The proof for this claim can be found in \cite[326]{farrell}.}, it suffices to show $ C_c (\R) $ is spanned by the Haar system.\info{more explanation needed, maybe a small $ \epsilon $ proof.} \change{paraphrase from \cite{davidson}}Each such function with compact support is te finite sum of (piecewise) continuous functions supported on an interval $ [m, m+1) $. But our basis is invariant under integer translations, so it is enough to show that a function on $ [0,1) $ is spanned by the Haar system.
+	
+	\vspace{12pt}
+	In the next section, we will prove that the Haar system spans $ L^2(0,1) $. To do this, consider the functions $ \{ \varPsi_{j,k} \} $ in the Haar system that are supported on $ [0,1) $, namely $ 0 \leq k \leq 2^j $ for each $ j \geq 0 $. We define the inner product expansion as follows:
+	
+	\begin{defn}[Inner Product Expansion, {\cite[409]{davidson}}] \label{def:expansion}
+		Set $ \varphi = \chi_{[0,1)} $. Define the sequence of partial sums $ H_nf $ to be:
+		\[ H_n f(x) = \langle f, \varphi \rangle \varphi(x) + \sum_{j=0}^{n-1} \sum_{k=0}^{2^j-1} \langle f, \varPsi_{j,k} \rangle \varPsi_{j,k} (x). \]
+	\end{defn}
+	
+	\unsure{explanation needed.}The first term $ \langle f, \varphi \rangle $ is to consider $ f $ on $ [0,1) $ only.
+	The \emph{Haar coefficients} are the inner products $ \langle f, \varPsi_{j,k} \rangle $ in the expansion.                                         
+	\info{some description of $ H_nf $}
+	
+	\change{make the sure notations are consistent among $ j,k,n $}
+	
+	\begin{lem}[{\cite[410]{davidson}}]
+		Let $ f \in L^2 (0,1) $. Then $ H_n f $ is the unique function that is constant on each dyadic interval of length $ 2^{-n} $ in $ [0,1] $ and satisfies
+		\[ H_nf(x) = 2^n \int_{} \]
+	\end{lem}
+	
+	\begin{lem}
+		Let $ f \in L^2(0,1) $. Then $ H_nf $ converges to $ f $ in the $ L^2 $ norm. Consequently, the Haar system is an orthonormal basis for $ L^2(0,1) $. Moreover, if $ f $ is continuous on $ [0,1] $, then $ H_nf $ converges uniformly to $ f $.
+	\end{lem}
+	
+	\section{whatever}
+	\begin{thm} \label{convergence}
+		If $ f \in C_0(\R) $, then the series $ \sum_{j,k \in \Z} \langle f, \varPsi_{j,k} \rangle \varPsi_{j,k} $ converges to $ f $ uniformly on $ \R $.
+	\end{thm}
+	
+	\section{Approximations using Haar wavelets}
+	
+	
+-----------------------------------
+
+\begin{rem}
+	$ \varPsi_{j,k} $ has width of $ 2^{-j} $ and is centered about $ k 2^{-j} $. Furthermore, we can see that:
+	\begin{enumerate}
+		\item $ \int_{\R} \varPsi(x)dx = 0 $, which makes $ \varPsi $ a wave.
+		\item  $ \int_{\R} \varPsi(x)^2dx = 1 $, i.e. the norm of $ \varPsi $ is 1.
+	\end{enumerate}
+\end{rem}	
+
 \begin{quote}
 	The child wavelets $ \varPsi_{j,k} $ are simply dilated and translated versions of the mother wavelet multiplied with the normalization factor 2j/2. The normalization factor is there so that the dilated and translated Haar function satisfies property (2) in the wavelet	definition.
 \end{quote}
