@@ -1,4 +1,4 @@
-\documentclass[2pt]{amsart}
+\documentclass[11pt]{amsart}
 
 \usepackage[english]{babel}
 \usepackage {amsmath} 
@@ -6,8 +6,15 @@
 \usepackage{amsfonts}
 \usepackage{amsthm}
 \usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{lipsum}
 \usepackage[colorlinks,linkcolor=blue, citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[backend=bibtex]{biblatex}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\newcommand{\info}[1]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen]{#1}}
+\newcommand{\unsure}[1]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red]{#1}}
+\newcommand{\change}[1]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum]{#1}}
 
 %% Environments for theorems, etc.. 
 \theoremstyle{theorem} % set the style for the following theorems
@@ -36,6 +43,8 @@
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\dimension}{dim}
 \DeclareMathOperator*{\supp}{supp}
+\DeclareMathOperator{\spn}{span}
+
 
 \addbibresource{wavelet.bib}
 

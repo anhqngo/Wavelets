@@ -43,6 +43,8 @@
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\dimension}{dim}
 \DeclareMathOperator*{\supp}{supp}
+\DeclareMathOperator{\spn}{span}
+
 
 \addbibresource{wavelet.bib}
 
@@ -65,37 +67,46 @@ First, recall that \emph{$ L^2(\R) $} is a vector space of square integrable fun
 	\[ \{ \varPsi_{j,k}(x) = 2^{j/2} \varPsi (2^j x-k), \qquad j,k \in \Z \}. \]
 \end{defn}
 
-%Let $ \varPsi = \chi_{[0,0.5)} - \chi_{[0.5,1)} $ and define
-%	\[ \varPsi_{j,k}(x) = 2^{j/2} \varPsi (2^j x-k), \qquad j,k \in \Z, \]
-	Note that each term in the Haar system is constructed by translating and/or scaling the original $ \varPsi $ (see Figure \ref{fig:haarsystem}) and note that 
-	$ \int_{\R} \varPsi(x)dx = 0 $, which makes $ \varPsi $ a wave (and in turn makes all other $ \varPsi_{j,k} $ a wave as well).
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\linewidth]{img/haar_system}
-		\caption[Elements of the Haar system]{Elements of the Haar system}
-		\label{fig:haarsystem}
-	\end{figure}
-	
-	We will prove that the Haar function $ \varPsi $ satisfies Definition \ref{orthonormal wavelet} of an \emph{orthonormal wavelet}.
+	Note that each term in the Haar system is constructed by translating and/or dilating the original $ \varPsi $ (see Figure \ref{fig:haarsystem}). By this construction, since $ \int_{\R} \varPsi(x)dx = 0 $, it follows that $ \int_{\R} \varPsi_{j,k}(x)dx = 0 $ for $ j,k \in \Z $.
+	Furthermore, it is important to calculate the width and height for each $ \varPsi_{j,k} $. We have $ \varPsi(2^j - k) = 1 $ when $ 0 \leq 2^j - k < \frac{1}{2} $, or equivalently, $ \frac{k}{2^j} \leq x < \frac{k+\frac{1}{2}}{2^j} $. Therefore, in this interval, $ \varPsi_{j,k} = 2^j $. Similar calculations yield:
+	\begin{equation} \label{eq:height}
+		\varPsi_{j,k} = 
+		\begin{cases}
+		2^{j/2} &\text{if}\ \frac{k}{2^j} \leq x < \frac{k+\frac{1}{2}}{2^j}, \\
+		-2^{j/2} &\text{if}\ \frac{k+\frac{1}{2}}{2^j} \leq x < \frac{k+1}{2^j}, \\
+		0 &\text{otherwise}.
+		\end{cases}
+	\end{equation}
 
-\begin{defn}[Orthonormal Wavelet, {\cite[303]{pinsky}}] \label{orthonormal wavelet}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/haar_system}
+	\caption[Elements of the Haar system]{Elements of the Haar system}
+	\label{fig:haarsystem}
+\end{figure}
 	
+Now, we will prove that the Haar function $ \varPsi $ satisfies Definition \ref{def:wavelet} of an \emph{orthonormal wavelet}.
+
+\begin{defn}[Orthonormal Wavelet, {\cite[303]{pinsky}}] \label{def:wavelet}
 	If $ \varPsi \in L^2(\R) $, $ \varPsi_{j,k}(x) = 2^{j/2} \varPsi (2^j x-k) $, and the set $ \{ \varPsi_{j,k}: j,k \in \Z \} $ is an orthonormal basis for $ L^2(\R) $, then $ \varPsi $ is called an \emph{orthonormal wavelet}.
 \end{defn}
 
-Recall from \cite[128]{davidson} that a collection of vectors $ \{ e_n: n \in S \} $ in $ V $ is called \emph{orthonormal} if $ \|e_n\|=1 $ for all $ n \in S $ and $ \langle  e_n, e_m \rangle =0 $ for $ n \neq m \in S $. 
+To prove the Haar system is an \textit{orthonormal basis}, we have to show:
+	\begin{enumerate}
+		\item The Haar system $ \{ \varPsi_{j,k} \} $ is an orthonormal set, i.e. $ \| \varPsi_{j,k} \| = 1 $ for all $ j,k \in \Z $ and $ \langle \varPsi_{j,k}, \varPsi_{j',k'} \rangle = 0 $ for all $ (j,k) \neq (j',k') $.
+		
+		\item The span of Haar system, denoted $ \spn\{\varPsi_{j,k}\} $, is dense in $ L^2(\R) $.
+		\unsure{Does it mean if a basis spans a dense subspace, it will span other subspaces? Since there are so many dense subspaces of $ L^2(\R) $, which one do we choose among $ C_{00}, C_0, C_c $?}
+	\end{enumerate}
 
+In Section \ref{section:orthonormality}, we will first prove that the Haar system is orthonormal. Section \ref{section:span} will show that it spans $ L^2(\R) $, thereby completing our proof that the Haar function is indeed a wavelet. Finally, we will discuss the application of Haar wavelet in image processing in Section \ref{section:application}.
 
-
-We have to show that the Haar system is orthonormal and spans $ L^2(\R) $.
-
-\section{Orthonormality}
+\section{Orthonormality} \label{section:orthonormality}
 \begin{lem}[{\cite[409]{davidson}}] \label{lem:orthonormal}
 	The Haar system is an orthonormal set in $ L^2(\R) $.
 	
 	\begin{proof}
-		First, it is easy to see that $ \| \varPsi \| = 1 $. Now, let us compute:
+		First, it is easy to see that $ \| \varPsi \| = 1 $. Let us compute:
 		\begin{align*}
 		\| \varPsi_{j,k} \|^2 = \int_{\R} \left| 2^{j/2} \varPsi(2^{j} x - k) \right|^2 dx 
 		&=   \int_{\R} 2^j \left| \varPsi(2^{j} x - k) \right|^2 dx \\
@@ -104,53 +115,61 @@ We have to show that the Haar system is orthonormal and spans $ L^2(\R) $.
 		\end{align*}
 		by change of variable $ y = 2^{j}x-k $ in the integral. Therefore, all the elements in the Haar system has norm 1.
 		
-		Now, we want to show the orthogonality. Consider $ \varPsi_{j,k} $ and $ \varPsi_{j,k'} $, for $ k \neq k' $. Since these two elements have disjoint support\footnote{The \emph{support} of a function, denoted $ \supp $, is the subset of the domain containing those elements which are not mapped to zero.}, their inner product is 0. If $ j < j' $, then either $ \varPsi_{j,k} $ and $ \varPsi_{j',k'} $ have disjoint supports (when $ k \neq k' $), or supp $ \varPsi_{j',k'} $ is contained in an interval on which $ \varPsi_{j,k} $ is constant (when $ k = k' $). For the latter case, we have:
-		\[ \langle \varPsi_{j,k}, \varPsi_{j',k'} \rangle = 2^j \int_{\R} \varPsi_{j',k'} dx = 0. \]
+		Now, we want to show the orthogonality. Consider $ \varPsi_{j,k} $ and $ \varPsi_{j,k'} $, for $ k \neq k' $. Since these two elements have disjoint support\footnote{The \emph{support} of a function, denoted $ \supp $, is the subset of the domain containing those elements which are not mapped to zero.}, their inner product is 0. If $ j < j' $, then either $ \varPsi_{j,k} $ and $ \varPsi_{j',k'} $ have disjoint supports (when $ k \neq k' $), or supp $ \varPsi_{j',k'} $ is contained in an interval on which $ \varPsi_{j,k} $ is constant to (when $ k = k' $). For the latter case, we have:
+		\[ \langle \varPsi_{j,k}, \varPsi_{j',k'} \rangle =  \int_{\R} 2^{j/2} \cdot \varPsi_{j',k'} dx = 2^{j/2} \int_{\R} \varPsi_{j',k'} dx = 0. \]
 	
 		Hence, the set is orthonormal.
 	\end{proof}
 \end{lem}
 
-\section{Integral Kernel/Inner Product Expansion}
-Now that we have proved the Haar system is orthonormal, our goal now is to show that it spans all of $ L^2(\R) $\unsure{Does the definition of span in Hilbert space means convergence? Is it the same as in Linear Algebra?}. Motivated by \cite[3]{bell} and \cite[516]{davidson}, this section will set up the integral kernel $ P_nf $ below, which will act as the foundation to prove that any function in $ L^2(\R) $ is in the span of $ \{ \varPsi_{j,k} \} $. 
+\begin{rem}
+	Haar function is a dyadic function, meaning that the dilations are taken to be powers of 2. Here, the factor $ 2^{j/2} $ is called the normalization factor, which is there so that the dilated and translated Haar function has norm 1. Although powers of 2 are a common choice, they are certainly not the most general one\footnote{See examples of non-dyadic wavelets and a discussion why non-dyadic wavelets are more appropriate for statistical data analysis in \cite{pollock}.}.
+\end{rem}
+
+Now that we have proved the Haar system is orthonormal, in the following sections, we continue proving that the Haar function satisfies Definition \ref{def:wavelet} of \emph{orthonormal wavelet}.
+
+\section{Haar Wavelet Basis for $ L^2(\R) $} \label{section:span}
+\subsection{Inner Product Expansion}
+Motivated by \cite[3]{bell} and \cite[516]{davidson}, this subsection will set up the inner product expansion $ P_nf $ below, which will act as the foundation to prove that any function in $ L^2(\R) $ is in the span of $ \{ \varPsi_{j,k} \} $.\unsure{be careful with the definition}
 
 \vspace{8pt}
 Set $ \phi(x) = \chi_{[0,1)}$. For $ n \in \Z $, we define
 \[ K_n (x,y) = 2^n \sum_{k \in \Z} \phi(2^n x - k) \phi(2^n y - k). \]
 
 Note that $ K_n $ is either equal to $ 2^n $ (when there is some $ k \in \Z $ s.t. $ 2^n x-k $ and $ 2^ny - k $ lie in $ [0,1) $) or equal to 0 (otherwise). Equivalently, if $ K_n = 2^n $, there is some $ k $ s.t.
-	\[ x,y \in \left[ \frac{k}{2^n}, \frac{k+1}{2^n} \right) = I_{n,k}. \]
-Here, note that for any given $ n \in \Z $, the set $ \{ I_{n,k} \} $ is disjoint.
-
-\info{mention something about being constant on each dyadic interval.}
+\[ x,y \in \left[ \frac{k}{2^n}, \frac{k+1}{2^n} \right) = I_{n,k}. \]
+Here, note that $ K_n(x,y) $ is constant (equal to $ 2^n $) on each dyadic interval of length $ 2^{-n} $. Furthermore, for any given $ n \in \Z $, the set $ \{ I_{n,k} \} $ is disjoint.
 
 We define
 \[ P_n f(x) = \int_{\R} K_n(x,y) f(y) dy. \]
 If $ x \in \R $ then there is a unique $ k_x \in \Z $ with $ x \in I_{n, k_x} $ and
 \[ P_n f(x) = 2^n \int_{I_{n,k_x}} f(y) dy. \]
 
-\section{Haar Wavelet Basis for $ L^2(\R) $}
 \begin{lem}[{\cite[293]{pinsky}}]
 	If $ n \in \Z $, then
 	\[ K_{n+1} - K_n = \sum_{k \in \Z} \varPsi_{n,k}(x) \varPsi_{n,k}(y),\qquad x,y \in \R. \]
 	
 	\begin{proof}
-		\change{The proof here is a direct copy of the proof in Bell}
-		$ \varPsi(2^nx-k) = 1 $ means that $ 0 \leq 2^nx-k < \frac{1}{2} $, which is equivalent to $ \frac{2k}{2^{n+1}} \leq x < \frac{2k+1}{2^{n+1}} $, which is equivalent to $ x \in I_{n+1,2k} $. By the same argument, we have:
+		By Equation \ref{eq:height}, $ \varPsi_{n,k}(x) $ is equal to $ 2^{n/2} $ when $ x \in I_{n+1,2k} = \left[\frac{2k}{2^{n+1}}, \frac{2k+1}{2^{n+1}}\right) $ and is equal to $ -2^{n/2} $ when $ x \in I_{n+1,2k+1}$. Therefore, it follows that: \change{I don't know how to phrase this better.}
 		\[
 		\varPsi_{n,k}(x) \varPsi_{n,k} (y) =
 		\begin{cases}
-		2^n &\text{if} \\
-		-2^n &\text{if} \\
+		2^n &\text{if}\ x,y \in I_{n+1,2k}\ \text{or}\ x,y \in I_{n+1,2k+1}, \\
+		-2^n &\text{if one is in }\ I_{n+1,2k}\ \text{and the other is in}\ I_{n+1,2k+1}, \\
 		0 &\text{otherwise}.
 		\end{cases}
 		\]
 		
-		By our construction of $ K_n $, for the first line, indeed
-		\[ K_{n+1}(x,y) - K_n(x,y) = 2^{n+1} - 2^n = 2^n \]
+		Before calculating $ K_{n+1} - K_n $, note that:
+		\[
+		I_{n+1,2k} \cup I_{n+1,2k+1} = \left[ \frac{2k}{2^{n+1}}, \frac{2k+2}{2^{n+1}} \right) = I_{n,k}. 
+		\]
 		
-		For the second case,
-		\[ K_{n+1}(x,y) - K_n(x,y) = 0 - 2^n = -2^n \]
+		Therefore, if $ x,y $ is in either $ I_{n+1,2k} $ or $ I_{n+1,2k+1} $, then $ x,y \in I_{n,k} $ and $ K_n(x,y) = 2^n $. Hence, for this case, we have:
+		\[ K_{n+1}(x,y) - K_n(x,y) = 2^{n+1} - 2^n = 2^n. \]
+		
+		By similar argument, if either $ x $ or $ y $ is in $  I_{n+1,2k} $ and the other is in $ I_{n+1,2k+1} $, then
+		\[ K_{n+1}(x,y) - K_n(x,y) = 0 - 2^n = -2^n. \]
 		
 		Otherwise, everything is 0.
 		
@@ -158,10 +177,10 @@ If $ x \in \R $ then there is a unique $ k_x \in \Z $ with $ x \in I_{n, k_x} $ 
 	\end{proof}
 \end{lem}
 
-One important thing that this lemme does is to get rid of the scaling function and write integral kernel as the sum of the product of two functions from the Haar system.
-
 \begin{rem}
-	From this lemma, we also get
+	One important thing that this lemme does is to get rid of the scaling function and write integral kernel as the sum of the product of two functions from the Haar system.
+	
+	Furthermore, from this lemma, we also get
 	\begin{align*}
 		(P_{n+1} - P_n) f(x) &= \int_{\R} K_{n+1}(x,y)f(y)dy - \int_{\R} K_{n}(x,y)f(y)dy \\
 		&= \int_{\R} \sum_{k \in \Z} \varPsi_{n,k}(x) \varPsi_{n,k}(y) f(y) dy \\
@@ -170,9 +189,10 @@ One important thing that this lemme does is to get rid of the scaling function a
 	\end{align*}
 	Damn, we just wrote something dependent on the scaling function entirely on the wavelet series.
 	
-	We call $ \langle \rangle $ the Haar coefficients.
+	We call $ \langle \rangle $ the Haar coefficients. This is why this subsection is called the Haar inner product expansion.
 \end{rem}
 
+\subsection{Span of Haar System}
 \begin{lem}[Convergence of Inner Product Expansion, {\cite[7]{bell}, \cite[517]{davidson}}]
 	If $ f \in C_c(\R) $, then $ P_nf \to f $ in the uniform nom as well as in the $ L^2 $ norm.
 	
@@ -231,12 +251,17 @@ Therefore, the Haar function is indeed an orthonormal wavelet. We will now refer
 	See Figure \ref{fig:approximations} 
 \end{exmp}
 
-\section{Application to Image Processing}
+\section{Application to Image Processing} \label{section:application}
  When compressing images, we want to discard the least significant details, keeping the original picture largely intact. Fortunately, wavelets can isolate and decompose a signal into low frequency part and high frequency part.
  Briefly discuss FBI Fingerprint Image Compression if there is space:
  \begin{quote}
  	 Wavelet compression methods do not require dividing the image into smaller blocks because the desired localization properties are naturally built into the wavelet system.\cite{frazier}
  \end{quote}
+
+\section{Scratch}
+\begin{exmp}
+	Let $ f = \chi_{[0,1} $. Prove that the Haar series is not convergent in
+\end{exmp}
 
 \printbibliography
 
