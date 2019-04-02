@@ -259,3 +259,5 @@ TSWLatexianTemp*
 *.sta
 
 # Custom added
+scratch/
+*.nb
