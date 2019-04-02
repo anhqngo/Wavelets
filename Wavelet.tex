@@ -1,5 +1,8 @@
 \documentclass[11pt]{amsart}
 
+\usepackage[letterpaper,left=125pt,right=125pt]{geometry}
+
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 \usepackage[english]{babel}
 \usepackage {amsmath} 
 \usepackage{amssymb}
@@ -11,6 +14,7 @@
 \usepackage[colorlinks,linkcolor=blue, citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[backend=bibtex]{biblatex}
 \usepackage[colorinlistoftodos]{todonotes}
+\usepackage{subcaption}
 
 \newcommand{\info}[1]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen]{#1}}
 \newcommand{\unsure}[1]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red]{#1}}
@@ -45,6 +49,8 @@
 \DeclareMathOperator*{\supp}{supp}
 \DeclareMathOperator{\spn}{span}
 
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\usepackage{mwe}
 
 \addbibresource{wavelet.bib}
 
@@ -80,7 +86,7 @@ First, recall that \emph{$ L^2(\R) $} is a vector space of square integrable fun
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{img/haar_system}
+	\includegraphics[width=1\linewidth]{img/haar_system2}
 	\caption[Elements of the Haar system]{Elements of the Haar system}
 	\label{fig:haarsystem}
 \end{figure}
@@ -96,10 +102,9 @@ To prove the Haar system is an \textit{orthonormal basis}, we have to show:
 		\item The Haar system $ \{ \varPsi_{j,k} \} $ is an orthonormal set, i.e. $ \| \varPsi_{j,k} \| = 1 $ for all $ j,k \in \Z $ and $ \langle \varPsi_{j,k}, \varPsi_{j',k'} \rangle = 0 $ for all $ (j,k) \neq (j',k') $.
 		
 		\item The span of Haar system, denoted $ \spn\{\varPsi_{j,k}\} $, is dense in $ L^2(\R) $.
-		\unsure{Does it mean if a basis spans a dense subspace, it will span other subspaces? Since there are so many dense subspaces of $ L^2(\R) $, which one do we choose among $ C_{00}, C_0, C_c $?}
 	\end{enumerate}
 
-In Section \ref{section:orthonormality}, we will first prove that the Haar system is orthonormal. Section \ref{section:span} will show that it spans $ L^2(\R) $, thereby completing our proof that the Haar function is indeed a wavelet. Finally, we will discuss the application of Haar wavelet in image processing in Section \ref{section:application}.
+In Section \ref{section:orthonormality}, we will first prove that the Haar system is orthonormal. Section \ref{section:span} will show that it spans $ L^2(\R) $. Finally, in Section \ref{section:application}, we will discuss the local property of Haar wavelet and its application in image compression.
 
 \section{Orthonormality} \label{section:orthonormality}
 \begin{lem}[{\cite[409]{davidson}}] \label{lem:orthonormal}
@@ -129,28 +134,35 @@ In Section \ref{section:orthonormality}, we will first prove that the Haar syste
 Now that we have proved the Haar system is orthonormal, in the following sections, we continue proving that the Haar function satisfies Definition \ref{def:wavelet} of \emph{orthonormal wavelet}.
 
 \section{Haar Wavelet Basis for $ L^2(\R) $} \label{section:span}
-\subsection{Inner Product Expansion}
-Motivated by \cite[3]{bell} and \cite[516]{davidson}, this subsection will set up the inner product expansion $ P_nf $ below, which will act as the foundation to prove that any function in $ L^2(\R) $ is in the span of $ \{ \varPsi_{j,k} \} $.\unsure{be careful with the definition}
+\subsection{Integral Transform}
+Motivated by \cite[3]{bell} and \cite[516]{davidson}, this section will set up the integral transform $ P_nf $ below, which will act as the foundation to prove that any continuous function with compact support in $ C_c(\R) $, which is a dense subspace of $ L^2(\R) $\footnote{The proof for this claim can be found in \cite[326]{farrell}.}, is in the span of $ \{ \varPsi_{j,k} \} $.
 
 \vspace{8pt}
-Set $ \phi(x) = \chi_{[0,1)}$. For $ n \in \Z $, we define
+Set $ \phi(x) = \chi_{[0,1)}$. For $ n \in \Z $, we define the integral kernel
 \[ K_n (x,y) = 2^n \sum_{k \in \Z} \phi(2^n x - k) \phi(2^n y - k). \]
 
 Note that $ K_n $ is either equal to $ 2^n $ (when there is some $ k \in \Z $ s.t. $ 2^n x-k $ and $ 2^ny - k $ lie in $ [0,1) $) or equal to 0 (otherwise). Equivalently, if $ K_n = 2^n $, there is some $ k $ s.t.
 \[ x,y \in \left[ \frac{k}{2^n}, \frac{k+1}{2^n} \right) = I_{n,k}. \]
 Here, note that $ K_n(x,y) $ is constant (equal to $ 2^n $) on each dyadic interval of length $ 2^{-n} $. Furthermore, for any given $ n \in \Z $, the set $ \{ I_{n,k} \} $ is disjoint.
 
-We define
+We define the integral transform
 \[ P_n f(x) = \int_{\R} K_n(x,y) f(y) dy. \]
 If $ x \in \R $ then there is a unique $ k_x \in \Z $ with $ x \in I_{n, k_x} $ and
-\[ P_n f(x) = 2^n \int_{I_{n,k_x}} f(y) dy. \]
+\begin{equation} \label{eq:pnf}
+	P_n f(x) = 2^n \int_{I_{n,k_x}} f(y) dy.
+\end{equation}
+Since $ I_{n,k_x} $ has length $ 2^{-n} $, we can say that $ P_nf $ is the average value of a function $ f $ on a dyadic interval.
 
-\begin{lem}[{\cite[293]{pinsky}}]
+\vspace{8pt}
+Notice that the integral kernel $ K_n $ is dependent on the $ \phi $. In order to write any function in terms of the Haar system $ \{ \varPsi_{j,k} \} $, we must eliminate $ \phi $ somehow from our calculations. The following Lemma \ref{lem:expansion} will write the integral kernels solely in terms of the product of two functions from the Haar system, independent of the scaling function $ \phi $, a fact that proves to be useful in the subsequent sections.
+
+\begin{lem}[{\cite[293]{pinsky}}] \label{lem:expansion}
 	If $ n \in \Z $, then
 	\[ K_{n+1} - K_n = \sum_{k \in \Z} \varPsi_{n,k}(x) \varPsi_{n,k}(y),\qquad x,y \in \R. \]
 	
 	\begin{proof}
-		By Equation \ref{eq:height}, $ \varPsi_{n,k}(x) $ is equal to $ 2^{n/2} $ when $ x \in I_{n+1,2k} = \left[\frac{2k}{2^{n+1}}, \frac{2k+1}{2^{n+1}}\right) $ and is equal to $ -2^{n/2} $ when $ x \in I_{n+1,2k+1}$. Therefore, it follows that: \change{I don't know how to phrase this better.}
+		First, let us calculate the right-hand side.
+		By Equation \ref{eq:height}, $ \varPsi_{n,k}(x) = 2^{n/2} $ when $ x \in I_{n+1,2k} = \left[\frac{2k}{2^{n+1}}, \frac{2k+1}{2^{n+1}}\right) $ and $\varPsi_{n,k}(x)= -2^{n/2} $ when $ x \in I_{n+1,2k+1}$. Therefore, it follows that:
 		\[
 		\varPsi_{n,k}(x) \varPsi_{n,k} (y) =
 		\begin{cases}
@@ -160,7 +172,7 @@ If $ x \in \R $ then there is a unique $ k_x \in \Z $ with $ x \in I_{n, k_x} $ 
 		\end{cases}
 		\]
 		
-		Before calculating $ K_{n+1} - K_n $, note that:
+		Now, before calculating $ K_{n+1} - K_n $, note that:
 		\[
 		I_{n+1,2k} \cup I_{n+1,2k+1} = \left[ \frac{2k}{2^{n+1}}, \frac{2k+2}{2^{n+1}} \right) = I_{n,k}. 
 		\]
@@ -173,30 +185,55 @@ If $ x \in \R $ then there is a unique $ k_x \in \Z $ with $ x \in I_{n, k_x} $ 
 		
 		Otherwise, everything is 0.
 		
-		Hence, it follows that $ K_{n+1} - K_n = \sum_{k \in \Z} \varPsi_{n,k}(x) \varPsi_{n,k}(y) $.
+		Hence, we conclude $ K_{n+1} - K_n = \sum_{k \in \Z} \varPsi_{n,k}(x) \varPsi_{n,k}(y) $.
 	\end{proof}
 \end{lem}
 
+\vspace{8pt}
 \begin{rem}
-	One important thing that this lemme does is to get rid of the scaling function and write integral kernel as the sum of the product of two functions from the Haar system.
-	
-	Furthermore, from this lemma, we also get
+	From this Lemma, the difference between two integral transforms can be written as the \textit{inner product expansion} of the function $ f $:
 	\begin{align*}
-		(P_{n+1} - P_n) f(x) &= \int_{\R} K_{n+1}(x,y)f(y)dy - \int_{\R} K_{n}(x,y)f(y)dy \\
-		&= \int_{\R} \sum_{k \in \Z} \varPsi_{n,k}(x) \varPsi_{n,k}(y) f(y) dy \\
-		&= \sum_{k \in \Z} \varPsi_{n,k}(x) \int_{\R} \varPsi_{n,k}(y) f(y) dy \\
-		&= \sum_{k \in \Z} \langle f, \varPsi_{n,k} \rangle \varPsi_{n,k}(x).
+	(P_{n+1} - P_n) f(x) &= \int_{\R} K_{n+1}(x,y)f(y)dy - \int_{\R} K_{n}(x,y)f(y)dy \\
+	&= \int_{\R} \sum_{k \in \Z} \varPsi_{n,k}(x) \varPsi_{n,k}(y) f(y) dy \\
+	&= \sum_{k \in \Z} \varPsi_{n,k}(x) \int_{\R} \varPsi_{n,k}(y) f(y) dy \\
+	&= \sum_{k \in \Z} \langle f, \varPsi_{n,k} \rangle \varPsi_{n,k}(x).  \numberthis \label{eq:expansion}
 	\end{align*}
-	Damn, we just wrote something dependent on the scaling function entirely on the wavelet series.
 	
-	We call $ \langle \rangle $ the Haar coefficients. This is why this subsection is called the Haar inner product expansion.
+	The terms $ \langle f, \varPsi_{j,k} \rangle $ are called the the Haar coefficients of the expansion.
+	One can easily notice that this inner product expansion is only one-sided, meaning we keep the dilation factor $ j = n $ fixed and vary the translation factor $ k $. In the following sections, we will abstract this expansion to a more general setting, varying both the translation and dilation factors.
 \end{rem}
 
-\subsection{Span of Haar System}
-\begin{lem}[Convergence of Inner Product Expansion, {\cite[7]{bell}, \cite[517]{davidson}}]
+
+\subsection{Two-sided Haar Representation}
+From Equation \ref{eq:expansion}, we can write
+\begin{equation} \label{eq:twosided}
+	P_{n+1}f(x) - P_{-m}f(x) = \sum_{j=-m}^{n} \sum_{k \in \Z} \langle f, \varPsi_{j,k} \rangle \varPsi_{j,k}(x).
+\end{equation}
+To prove the Haar inner product expansion on the right-hand side converges to a function $ f $, we have to show that $ P_{-m}f \to 0 $ and  $ P_{n+1}f \to f $ as $ m, n \to \infty $. We prove the two Lemmas in the same order below.
+
+First, Lemma \ref{lem:average} tells us that the larger the intervals on which we average a continuous function, the smaller the supremum of the averaged function.
+
+\begin{lem}[Average Function over Dyadic Intervals, {\cite[295]{pinsky}}] \label{lem:average}
+	If $ f \in C_c(\R) $, then $ \|P_{-m}f\|_2 \to 0 $ when $ m \to \infty $.
+	\begin{proof}\change{Fill in later}
+		Suppose $ f \in C_c(R) $ and $ \supp(f) \subseteq [-2^M, 2^M] $ for $ M \geq 0 $. If $ m > M $, then 
+		$ \supp(g) \subseteq I_{-m,-1} \cup I_{-m,0} $. Furthermore,... Given $ \epsilon > 0 $. If $ m > N $, then we have:
+		\begin{align*}
+			\| P_{-m}g \|_2^2 &= \int_{\R} \left| P_{-m}g(x) \right|^2 dx \\
+			&= \sum_{k \in \Z} \int_{I_{-m,k}} \left| P_{-m}g(x) \right|^2 dx \\
+			&= \sum_{k \in \Z} \int_{I_{-m,k}} \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 dx \\
+			&= \sum_{k = -1}^{0} \int_{I_{-m,k}} \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 dx \\
+			&= \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 \cdot \left(  \sum_{k = -1}^{0} \int_{I_{-m,k}} 1 dx \right) \\
+			&= \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 \cdot (2^{m} + 2^{m}) \\
+			&= \int_{I_{-m,-1}} \left| P_{-m}g(x) \right|^2 dx +   \\
+			&= \int_{I_{-m,k}} \left| 2^{-m} \int_{I_{-m,k_x}} g(y) dy \right|^2 dx
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{lem}[Convergence of Integral Transform, {\cite[517]{davidson}}] \label{lem:convergence}
 	If $ f \in C_c(\R) $, then $ P_nf \to f $ in the uniform nom as well as in the $ L^2 $ norm.
 	
-	\info{draw a picture of $ P_nf $}
 	\begin{proof}
 		Suppose $ f \in C_c(\R) $ and $ \supp(f) \subset [-2^M, 2^M] $ for $ M \geq 0 $. Since $ f $ is continuous on a compact set, it is uniformly continuous.
 		
@@ -204,64 +241,103 @@ If $ x \in \R $ then there is a unique $ k_x \in \Z $ with $ x \in I_{n, k_x} $ 
 		
 		Now, choose $ N $ such that $ 2^{-N} < \delta $; if $ n > N $, then we have:
 		\begin{align*}
-			|P_nf(x) - f(x)| &= \left| 2^n \int_{I_{n,k_x}} f(y)dy - f(x) \right| \\
-			&=  \left| 2^n \int_{I_{n,k_x}} f(y)dy - 2^n \int_{I_{n,k_x}} f(x) dy \right| \\
-			&\leq 2^n \int_{I_{n,k_x}} |f(y) - f(x)| dy\\
-			&< 2^n \int_{I_{n,k_x}} \epsilon dy = \epsilon.
+		|P_nf(x) - f(x)| &= \left| 2^n \int_{I_{n,k_x}} f(y)dy - f(x) \right| \\
+		&=  \left| 2^n \int_{I_{n,k_x}} f(y)dy - 2^n \int_{I_{n,k_x}} f(x) dy \right| \\
+		&\leq 2^n \int_{I_{n,k_x}} |f(y) - f(x)| dy\\
+		&< 2^n \int_{I_{n,k_x}} \epsilon dy = \epsilon.
 		\end{align*}
 		Therefore, $ P_nf $ converges to $ f $ uniformly. Furthermore,
 		\begin{align*}
-			\| P_nf - f \|_2^2 &= \int_{\R} |P_nf(x) - f(x)|^2dx \\
-			&= \int_{-2^M}^{2^M} |P_nf(x) - f(x)|^2dx \\
-			&\leq \int_{-2^M}^{2^M} \|P_nf - f\|_\infty^2dx = 2 \cdot 2^M \| P_n - f \|_\infty^2.
+		\| P_nf - f \|_2^2 &= \int_{\R} |P_nf(x) - f(x)|^2dx \\
+		&= \int_{-2^M}^{2^M} |P_nf(x) - f(x)|^2dx \\
+		&\leq \int_{-2^M}^{2^M} \|P_nf - f\|_\infty^2dx = 2 \cdot 2^M \| P_n - f \|_\infty^2.
 		\end{align*}
-		Since the right hand side converges to 0, by limit comparison test, it follows that $ \| P_nf-f \|_2^2 \to 0 $ as $ n \to \infty $.
+		Since the right hand side converges to 0, by Limit Comparison Test, it follows that $ \| P_nf-f \|_2^2 \to 0 $ as $ n \to \infty $.
 		
 		Hence, $ P_n \to f $ both in the uniform norm and in the $ L^2 $ norm.
 	\end{proof}
 \end{lem}
 
-\info{what if the continuity hypothesis is violated mildly?}
+To illustrate this convergence better, see Figure \ref{fig:converge} for the sequence $ \{P_nf\} $ approaching $ f(x) = x^2 $ on the unit interval.
 
-\info{draw a picture of $ P_nf $ and $ f $ with different $ n $}
+    \begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/approximate0}
+		\caption[Network2]%
+		{{\small $ n = 0 $}}    
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.475\textwidth}  
+		\centering 
+		\includegraphics[width=\textwidth]{img/approximate1}
+		\caption[]%
+		{{\small $ n = 1 $}}
+	\end{subfigure}
+	\vskip\baselineskip
+	\begin{subfigure}[b]{0.475\textwidth}   
+		\centering 
+		\includegraphics[width=\textwidth]{img/approximate2}
+		\caption[]%
+		{{\small $ n = 2 $}}    
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[b]{0.475\textwidth}   
+		\centering 
+		\includegraphics[width=\textwidth]{img/approximate5}
+		\caption[]%
+		{{\small $ n = 5 $}}    
+	\end{subfigure}
+	\caption[]
+	{Approximation of $ f(x) = x^2 $ by $ P_nf(x) $ as $ n $ increases}
+	\label{fig:converge}
+\end{figure}\change{Fix the graph if there's time}
 
-\info{what is the definition of span}
+
+\subsection{Span of Haar System}
+
 \begin{thm}[{\cite[411]{davidson}}] \label{span}
 	The Haar system spans all of $ L^2(\R) $.
 	
 	\begin{proof}
-		Let $ f $ be arbitrary in $ \in L^2(\R) $. Given $ \epsilon > 0 $.
-		
-		Since $ C_c(\R) $ is dense in $ L^2(\R) $\footnote{The proof for this claim can be found in \cite[326]{farrell}}, there exists $ g \in C_c(\R) $ s.t. $ |f - g| <  $
-		
-		\begin{align*}
-			\|P_nf - f\|_2 &\leq \|P_nf - P_ng\|_2 + \|P_ng - g\|_2 + \|g - f\|_2 \\
-			&\leq 
-		\end{align*}
+		By Equation \ref{eq:twosided}, Lemma \ref{lem:average} and Lemma \ref{lem:convergence}, it follows that for any $ f \in C_c(\R) $, $ f $ is in the span of the Haar system:
+		\[
+			f = \sum_{j \in \Z} \sum_{k \in \Z} \langle f, \varPsi_{j,k} \rangle \varPsi_{j,k}.
+		\]
+		Since $ C_c(\R) $ is a dense subspace of $ L^2(\R) $, it follows that the Haar system spans all of $ L^2(\R) $.
+%		Let $ f $ be arbitrary in $ \in L^2(\R) $. Given $ \epsilon > 0 $.
+%		
+%		Since $ C_c(\R) $ is dense in $ L^2(\R) $\footnote{The proof for this claim can be found in \cite[326]{farrell}}, there exists $ g \in C_c(\R) $ s.t. $ |f - g| <  $
+%		
+%		\begin{align*}
+%			\|P_nf - f\|_2 &\leq \|P_nf - P_ng\|_2 + \|P_ng - g\|_2 + \|g - f\|_2 \\
+%			&\leq 
+%		\end{align*}
 	\end{proof}
 \end{thm}
 
-Therefore, the Haar function is indeed an orthonormal wavelet. We will now refer to the Haar function as the \emph{Haar wavelet}.
-
-
-
-\begin{exmp}
-	Consider $ f(x) = e^{-x} \sin 2\pi x $ for $ x \in (0,1) $.
-	
-	See Figure \ref{fig:approximations} 
-\end{exmp}
+The Haar function $ \varPsi $ is therefore an orthonormal wavelet, and we will now refer to it as the \emph{Haar wavelet}.
 
 \section{Application to Image Processing} \label{section:application}
  When compressing images, we want to discard the least significant details, keeping the original picture largely intact. Fortunately, wavelets can isolate and decompose a signal into low frequency part and high frequency part.
  Briefly discuss FBI Fingerprint Image Compression if there is space:
- \begin{quote}
+\begin{quote}
  	 Wavelet compression methods do not require dividing the image into smaller blocks because the desired localization properties are naturally built into the wavelet system.\cite{frazier}
  \end{quote}
 
-\section{Scratch}
-\begin{exmp}
-	Let $ f = \chi_{[0,1} $. Prove that the Haar series is not convergent in
-\end{exmp}
+Visually, the mother
+wavelet appears as a local oscillation, or wave, in which most of the
+energy of the oscillation is located in a narrow region in the physical
+space. This localization in the physical space limits the localization in the frequency or wavenumber domain due to the uncertainty
+principle1 . The dilation parameter a controls the width and rate of
+this local oscillation and intuitively can be thought of controlling the
+frequency of vab(x).
+
+
+These two degrees of freedom, j and A;, give one the ability to resolve
+features at a variety of scales by adjusting j and at any location by
+adjusting k.
 
 \printbibliography
 
