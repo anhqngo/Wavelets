@@ -332,7 +332,7 @@ To illustrate this convergence better, see Figure \ref{fig:converge} for the seq
 The Haar function $ \varPsi $ is therefore an orthonormal wavelet, and we will now refer to it as the \emph{Haar wavelet}.
 
 \section{Application to Image Compression} \label{section:application}
-In this section, we discuss image compression as an application of the Haar wavelet basis. First, we define what we mean by compression. When compressing images, we want to discard the least significant details, keeping the original picture largely intact. Since an image is two-dimensional, it is helpful to think of image compression as discarding least significant details from the sets of data representing the pixels for the rows and and for the columns. 
+In this section, we discuss image compression as an application of the Haar wavelet basis. First, we define what we mean by compression. When compressing images, we want to discard the least significant details, keeping the original picture largely intact. Since an image is two-dimensional, it is helpful to think of image compression as discarding least significant details from the sets of row pixels and column pixels. 
 
 For instance, suppose we are given a function $ f(x) $ expressed in terms of span of basis functions $ \{ u_i \} $:
 	\[ f(x) = \sum_{i=0}^{M-1} c_i u_i(x). \]
@@ -342,7 +342,7 @@ Because Haar wavelet basis is orthonormal, we can easily calculate the coefficie
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\linewidth]{img/s.png}
+	\includegraphics[width=0.7\linewidth]{img/s.png}
 	\caption{Compression with Haar Wavelet Basis}
 	\label{fig:s2}
 \end{figure}
