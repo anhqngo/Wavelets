@@ -86,7 +86,7 @@ First, recall that \emph{$ L^2(\R) $} is a vector space of square integrable fun
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1\linewidth]{img/haar_system2}
+	\includegraphics[width=0.7\linewidth]{img/haar_system2}
 	\caption[Elements of the Haar system]{Elements of the Haar system}
 	\label{fig:haarsystem}
 \end{figure}
@@ -206,28 +206,40 @@ Notice that the integral kernel $ K_n $ is dependent on the $ \phi $. In order t
 
 \subsection{Two-sided Haar Representation}
 From Equation \ref{eq:expansion}, we can write
+
 \begin{equation} \label{eq:twosided}
 	P_{n+1}f(x) - P_{-m}f(x) = \sum_{j=-m}^{n} \sum_{k \in \Z} \langle f, \varPsi_{j,k} \rangle \varPsi_{j,k}(x).
 \end{equation}
+
 To prove the Haar inner product expansion on the right-hand side converges to a function $ f $, we have to show that $ P_{-m}f \to 0 $ and  $ P_{n+1}f \to f $ as $ m, n \to \infty $. We prove the two Lemmas in the same order below.
 
+\vspace{8pt}
 First, Lemma \ref{lem:average} tells us that the larger the intervals on which we average a continuous function, the smaller the supremum of the averaged function.
 
 \begin{lem}[Average Function over Dyadic Intervals, {\cite[295]{pinsky}}] \label{lem:average}
 	If $ f \in C_c(\R) $, then $ \|P_{-m}f\|_2 \to 0 $ when $ m \to \infty $.
-	\begin{proof}\change{Fill in later}
-		Suppose $ f \in C_c(R) $ and $ \supp(f) \subseteq [-2^M, 2^M] $ for $ M \geq 0 $. If $ m > M $, then 
-		$ \supp(g) \subseteq I_{-m,-1} \cup I_{-m,0} $. Furthermore,... Given $ \epsilon > 0 $. If $ m > N $, then we have:
+	
+	\begin{proof}
+		Suppose $ f \in C_c(R) $ and $ \supp(f) \subseteq [-K,K] $. There eixsts $ M > 0 $ s.t. $ \supp(g) \subset [-2^M, 2^M] $.
+		
+		Now, if $ m > M $, then $ \supp(g) \subseteq I_{-m,-1} \cup I_{-m,0} $; Equation \ref{eq:pnf} holds only in these two intervals.
+		We therefore compute:
+		
 		\begin{align*}
 			\| P_{-m}g \|_2^2 &= \int_{\R} \left| P_{-m}g(x) \right|^2 dx \\
-			&= \sum_{k \in \Z} \int_{I_{-m,k}} \left| P_{-m}g(x) \right|^2 dx \\
-			&= \sum_{k \in \Z} \int_{I_{-m,k}} \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 dx \\
-			&= \sum_{k = -1}^{0} \int_{I_{-m,k}} \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 dx \\
-			&= \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 \cdot \left(  \sum_{k = -1}^{0} \int_{I_{-m,k}} 1 dx \right) \\
-			&= \left| 2^{-m} \int_{-m,k_x} g(y) dy \right|^2 \cdot (2^{m} + 2^{m}) \\
-			&= \int_{I_{-m,-1}} \left| P_{-m}g(x) \right|^2 dx +   \\
-			&= \int_{I_{-m,k}} \left| 2^{-m} \int_{I_{-m,k_x}} g(y) dy \right|^2 dx
+			&= \sum_{k \in \Z} \int_{I_{-m,k}} |P_{-m}g(x)|^2 dx \\
+			&= \sum_{k \in \Z} \int_{I_{-m,k}} \left|2^{-m} \int_{I_{-m,k}} g(y) dy \right|^2 dx \\
+			&= 2^{m} \cdot 2^{-2m} \sum_{k \in \Z} \left|\int_{I_{-m,k}} g(y) dy \right|^2 dx \\
+			&= 2^{-m} \left( \left|\int_{I_{-m,-1}} g(y) dy \right|^2 dx + \left| \int_{I_{-m,-1}} g(y) dy \right|^2 dx \right) \\
+			&=  2^{-m} \left( \left|\int_{-K}^0 g(y) dy \right|^2 dx + \left| \int_{0}^K g(y) dy \right|^2 dx \right)
 		\end{align*}
+		Note that $ \int_{-K}^0 g(y) dy = \langle g(y),\chi_{[-K,0)}  \rangle $; therefore, by Cauchy-Schwarz inequality, we have:
+		\begin{align*}
+		\| P_{-m}g \|_2^2	&\leq  2^{-m} \left( K \|g\|_2^2 + K \|g\|_2^2 \right) \qquad \text{(by )} \\
+			&= 2^{-m} \cdot 2K \|g\|_2^2
+		\end{align*}
+		
+		As $ m \to \infty $, the right-hand side converges to 0. Therefore, by Squeeze Theorem, it follows that $ \|P_{-m}f\|_2 \to 0 $.
 	\end{proof}
 \end{lem}
 
@@ -258,41 +270,41 @@ First, Lemma \ref{lem:average} tells us that the larger the intervals on which w
 	\end{proof}
 \end{lem}
 
-To illustrate this convergence better, see Figure \ref{fig:converge} for the sequence $ \{P_nf\} $ approaching $ f(x) = x^2 $ on the unit interval.
+To illustrate this convergence better, see Figure \ref{fig:converge} for the sequence $ \{P_nf\} $ approaching $ f(x) = e^{-x} \sin{2\pi x} $ on the unit interval.
 
     \begin{figure}[h]
 	\centering
 	\begin{subfigure}[b]{0.475\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{img/approximate0}
+		\includegraphics[width=\textwidth]{img/e1}
 		\caption[Network2]%
-		{{\small $ n = 0 $}}    
+		{{\small $ n = 1 $}}    
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.475\textwidth}  
 		\centering 
-		\includegraphics[width=\textwidth]{img/approximate1}
+		\includegraphics[width=\textwidth]{img/e2}
 		\caption[]%
-		{{\small $ n = 1 $}}
+		{{\small $ n = 2 $}}
 	\end{subfigure}
 	\vskip\baselineskip
 	\begin{subfigure}[b]{0.475\textwidth}   
 		\centering 
-		\includegraphics[width=\textwidth]{img/approximate2}
+		\includegraphics[width=\textwidth]{img/e3}
 		\caption[]%
-		{{\small $ n = 2 $}}    
+		{{\small $ n = 3 $}}    
 	\end{subfigure}
 	\quad
 	\begin{subfigure}[b]{0.475\textwidth}   
 		\centering 
-		\includegraphics[width=\textwidth]{img/approximate5}
+		\includegraphics[width=\textwidth]{img/e5}
 		\caption[]%
 		{{\small $ n = 5 $}}    
 	\end{subfigure}
 	\caption[]
-	{Approximation of $ f(x) = x^2 $ by $ P_nf(x) $ as $ n $ increases}
+	{Approximation of $ f(x) = e^{-x} \sin{2\pi x} $ by $ P_nf(x) $}
 	\label{fig:converge}
-\end{figure}\change{Fix the graph if there's time}
+\end{figure}
 
 
 \subsection{Span of Haar System}
@@ -319,26 +331,26 @@ To illustrate this convergence better, see Figure \ref{fig:converge} for the seq
 
 The Haar function $ \varPsi $ is therefore an orthonormal wavelet, and we will now refer to it as the \emph{Haar wavelet}.
 
-\section{Application to Image Processing} \label{section:application}
- When compressing images, we want to discard the least significant details, keeping the original picture largely intact. Fortunately, wavelets can isolate and decompose a signal into low frequency part and high frequency part.
- Briefly discuss FBI Fingerprint Image Compression if there is space:
-\begin{quote}
- 	 Wavelet compression methods do not require dividing the image into smaller blocks because the desired localization properties are naturally built into the wavelet system.\cite{frazier}
- \end{quote}
+\section{Application to Image Compression} \label{section:application}
+In this section, we discuss image compression as an application of the Haar wavelet basis. First, we define what we mean by compression. When compressing images, we want to discard the least significant details, keeping the original picture largely intact. Since an image is two-dimensional, it is helpful to think of image compression as discarding least significant details from the sets of data representing the pixels for the rows and and for the columns. 
 
-Visually, the mother
-wavelet appears as a local oscillation, or wave, in which most of the
-energy of the oscillation is located in a narrow region in the physical
-space. This localization in the physical space limits the localization in the frequency or wavenumber domain due to the uncertainty
-principle1 . The dilation parameter a controls the width and rate of
-this local oscillation and intuitively can be thought of controlling the
-frequency of vab(x).
+For instance, suppose we are given a function $ f(x) $ expressed in terms of span of basis functions $ \{ u_i \} $:
+	\[ f(x) = \sum_{i=0}^{M-1} c_i u_i(x). \]
+The data set in this case consists of the coefficients $ c_i $. We would like to find a function approximating $ f(x) $ but requiring fewer coefficients, perhaps by using a different basis.
+
+Because Haar wavelet basis is orthonormal, we can easily calculate the coefficients and sort them in decreasing magnitude. Furthermore, due to its highly localization (the support for each function is located in a narrow dyadic interval), we can discard small coefficients without losing much data.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/s.png}
+	\caption{Compression with Haar Wavelet Basis}
+	\label{fig:s2}
+\end{figure}
+
+Figure \ref{fig:s2} shows the most significant coefficients when we apply image compression using Haar Wavelet Basis. The implementation of this compression algorithms can be found in \cite{stollnitz}.
 
 
-These two degrees of freedom, j and A;, give one the ability to resolve
-features at a variety of scales by adjusting j and at any location by
-adjusting k.
-
+\newpage
 \printbibliography
 
 \end{document}
