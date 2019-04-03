@@ -54,7 +54,7 @@
 
 \addbibresource{wavelet.bib}
 
-\title{Introduction to Wavelets in Image Processing}
+\title{Haar Wavelet and its Application in Image Compression}
 \author{Jason Ngo}
 \date{2019-04-03}
 
@@ -62,7 +62,7 @@
 \maketitle
 
 \section{Introduction}
-Since the start of the 20th century, we have seen rapid development in the theory and applications of wavelets. As a mathematical tool, wavelets can be used to extract information from different kinds of data such as audio signals and images. As an attempt to explore wavelets at an introductory level, this paper will examine the first wavelet developed, called the Haar Wavelet and discuss its applications in image processing.
+Since the start of the 20th century, we have seen rapid development in the theory and applications of wavelets. As a mathematical tool, wavelets can be used to extract information from different kinds of data such as audio signals and images. As an attempt to explore wavelets at an introductory level, this paper will examine the first wavelet developed, called the Haar Wavelet and discuss its applications in image compression.
 
 \vspace{8pt}
 First, recall that \emph{$ L^2(\R) $} is a vector space of square integrable functions, taken with the inner product
@@ -104,7 +104,7 @@ To prove the Haar system is an \textit{orthonormal basis}, we have to show:
 		\item The span of Haar system, denoted $ \spn\{\varPsi_{j,k}\} $, is dense in $ L^2(\R) $.
 	\end{enumerate}
 
-In Section \ref{section:orthonormality}, we will first prove that the Haar system is orthonormal. Section \ref{section:span} will show that it spans $ L^2(\R) $. Finally, in Section \ref{section:application}, we will discuss the local property of Haar wavelet and its application in image compression.
+In Section \ref{section:orthonormality}, we will first prove that the Haar system is orthonormal. Section \ref{section:span} will show that it spans a dense subspace of  $ L^2(\R) $. Finally, in Section \ref{section:application}, we will discuss Haar wavelet's local property and its application in image compression.
 
 \section{Orthonormality} \label{section:orthonormality}
 \begin{lem}[{\cite[409]{davidson}}] \label{lem:orthonormal}
@@ -128,14 +128,14 @@ In Section \ref{section:orthonormality}, we will first prove that the Haar syste
 \end{lem}
 
 \begin{rem}
-	Haar function is a dyadic function, meaning that the dilations are taken to be powers of 2. Here, the factor $ 2^{j/2} $ is called the normalization factor, which is there so that the dilated and translated Haar function has norm 1. Although powers of 2 are a common choice, they are certainly not the most general one\footnote{See examples of non-dyadic wavelets and a discussion why non-dyadic wavelets are more appropriate for statistical data analysis in \cite{pollock}.}.
+	Haar function is a dyadic function, meaning that the dilations are taken to be powers of 2. Here, the factor $ 2^{j/2} $ is called the normalization factor, which is there so that the dilated and translated Haar function has norm 1. Although powers of 2 are a common choice, they are certainly not the most general one\footnote{See examples of non-dyadic wavelets and a discussion why they are more appropriate for statistical data analysis in \cite{pollock}.}.
 \end{rem}
 
-Now that we have proved the Haar system is orthonormal, in the following sections, we continue proving that the Haar function satisfies Definition \ref{def:wavelet} of \emph{orthonormal wavelet}.
+%Now that we have proved the Haar system is orthonormal, Section \ref{section:span} will finish proving the Haar function satisfies Definition \ref{def:wavelet}.
 
 \section{Haar Wavelet Basis for $ L^2(\R) $} \label{section:span}
 \subsection{Integral Transform}
-Motivated by \cite[3]{bell} and \cite[516]{davidson}, this section will set up the integral transform $ P_nf $ below, which will act as the foundation to prove that any continuous function with compact support in $ C_c(\R) $, which is a dense subspace of $ L^2(\R) $\footnote{The proof for this claim can be found in \cite[326]{farrell}.}, is in the span of $ \{ \varPsi_{j,k} \} $.
+Motivated by \cite[3]{bell} and \cite[516]{davidson}, we will set up the integral transform $ P_nf $ below, which will act as the foundation to prove that any continuous function with compact support in $ C_c(\R) $, a dense subspace of $ L^2(\R) $\footnote{The proof that $ C_c(\R) $ is dense in $ L^2(\R) $ can be found in \cite[326]{farrell}.}, is in the span of $ \{ \varPsi_{j,k} \} $.
 
 \vspace{8pt}
 Set $ \phi(x) = \chi_{[0,1)}$. For $ n \in \Z $, we define the integral kernel
@@ -154,7 +154,7 @@ If $ x \in \R $ then there is a unique $ k_x \in \Z $ with $ x \in I_{n, k_x} $ 
 Since $ I_{n,k_x} $ has length $ 2^{-n} $, we can say that $ P_nf $ is the average value of a function $ f $ on a dyadic interval.
 
 \vspace{8pt}
-Notice that the integral kernel $ K_n $ is dependent on the $ \phi $. In order to write any function in terms of the Haar system $ \{ \varPsi_{j,k} \} $, we must eliminate $ \phi $ somehow from our calculations. The following Lemma \ref{lem:expansion} will write the integral kernels solely in terms of the product of two functions from the Haar system, independent of the scaling function $ \phi $, a fact that proves to be useful in the subsequent sections.
+Notice that the integral kernel $ K_n $ is dependent on the $ \phi $. In order to write any function in terms of the Haar system $ \{ \varPsi_{j,k} \} $, we must eliminate $ \phi $ somehow from our calculations. The following Lemma \ref{lem:expansion} will write the integral kernels in terms of $ \{ \varPsi_{j,k} \} $.
 
 \begin{lem}[{\cite[293]{pinsky}}] \label{lem:expansion}
 	If $ n \in \Z $, then
@@ -317,7 +317,7 @@ To illustrate this convergence better, see Figure \ref{fig:converge} for the seq
 		\[
 			f = \sum_{j \in \Z} \sum_{k \in \Z} \langle f, \varPsi_{j,k} \rangle \varPsi_{j,k}.
 		\]
-		Since $ C_c(\R) $ is a dense subspace of $ L^2(\R) $, it follows that the Haar system spans all of $ L^2(\R) $.
+		Since $ C_c(\R) $ is a dense subspace of $ L^2(\R) $, the Haar system spans $ L^2(\R) $.
 %		Let $ f $ be arbitrary in $ \in L^2(\R) $. Given $ \epsilon > 0 $.
 %		
 %		Since $ C_c(\R) $ is dense in $ L^2(\R) $\footnote{The proof for this claim can be found in \cite[326]{farrell}}, there exists $ g \in C_c(\R) $ s.t. $ |f - g| <  $
@@ -329,7 +329,7 @@ To illustrate this convergence better, see Figure \ref{fig:converge} for the seq
 	\end{proof}
 \end{thm}
 
-The Haar function $ \varPsi $ is therefore an orthonormal wavelet, and we will now refer to it as the \emph{Haar wavelet}.
+Therefore, the Haar function $ \varPsi $ is an orthonormal wavelet; we will now refer to it as the \emph{Haar wavelet}.
 
 \section{Application to Image Compression} \label{section:application}
 In this section, we discuss image compression as an application of the Haar wavelet basis. First, we define what we mean by compression. When compressing images, we want to discard the least significant details, keeping the original picture largely intact. Since an image is two-dimensional, it is helpful to think of image compression as discarding least significant details from the sets of row pixels and column pixels. 
@@ -338,7 +338,7 @@ For instance, suppose we are given a function $ f(x) $ expressed in terms of spa
 	\[ f(x) = \sum_{i=0}^{M-1} c_i u_i(x). \]
 The data set in this case consists of the coefficients $ c_i $. We would like to find a function approximating $ f(x) $ but requiring fewer coefficients, perhaps by using a different basis.
 
-Because Haar wavelet basis is orthonormal, we can easily calculate the coefficients and sort them in decreasing magnitude. Furthermore, due to its highly localization (the support for each function is located in a narrow dyadic interval), we can discard small coefficients without losing much data.
+Because Haar wavelet basis is orthonormal, we can easily calculate the coefficients and sort them in decreasing magnitude. Furthermore, due to its highly localization (the support for each function is located in a narrow dyadic interval), small coefficients can be discarded without losing much data.
 
 \begin{figure}[h]
 	\centering
@@ -347,7 +347,7 @@ Because Haar wavelet basis is orthonormal, we can easily calculate the coefficie
 	\label{fig:s2}
 \end{figure}
 
-Figure \ref{fig:s2} shows the most significant coefficients when we apply image compression using Haar Wavelet Basis. The implementation of this compression algorithms can be found in \cite{stollnitz}.
+Figure \ref{fig:s2} shows the four most significant coefficients when we apply image compression using Haar Wavelet Basis. The implementation of this compression algorithms can be found in \cite{stollnitz}.
 
 
 \newpage
