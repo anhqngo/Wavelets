@@ -231,14 +231,13 @@ First, Lemma \ref{lem:average} tells us that the larger the intervals on which w
 			&= \sum_{k \in \Z} \int_{I_{-m,k}} \left|2^{-m} \int_{I_{-m,k}} g(y) dy \right|^2 dx \\
 			&= 2^{m} \cdot 2^{-2m} \sum_{k \in \Z} \left|\int_{I_{-m,k}} g(y) dy \right|^2 dx \\
 			&= 2^{-m} \left( \left|\int_{I_{-m,-1}} g(y) dy \right|^2 dx + \left| \int_{I_{-m,-1}} g(y) dy \right|^2 dx \right) \\
-			&=  2^{-m} \left( \left|\int_{-K}^0 g(y) dy \right|^2 dx + \left| \int_{0}^K g(y) dy \right|^2 dx \right)
+			&=  2^{-m} \left( \left|\int_{-K}^0 g(y) dy \right|^2 dx + \left| \int_{0}^K g(y) dy \right|^2 dx \right).
 		\end{align*}
 		Note that $ \int_{-K}^0 g(y) dy = \langle g(y),\chi_{[-K,0)}  \rangle $; therefore, by Cauchy-Schwarz inequality, we have:
 		\begin{align*}
-		\| P_{-m}g \|_2^2	&\leq  2^{-m} \left( K \|g\|_2^2 + K \|g\|_2^2 \right) \qquad \text{(by )} \\
-			&= 2^{-m} \cdot 2K \|g\|_2^2
+		\| P_{-m}g \|_2^2	&\leq  2^{-m} \left( K \|g\|_2^2 + K \|g\|_2^2 \right) \\
+			&= 2^{-m} \cdot 2K \|g\|_2^2.
 		\end{align*}
-		
 		As $ m \to \infty $, the right-hand side converges to 0. Therefore, by Squeeze Theorem, it follows that $ \|P_{-m}f\|_2 \to 0 $.
 	\end{proof}
 \end{lem}
@@ -347,10 +346,8 @@ Because Haar wavelet basis is orthonormal, we can easily calculate the coefficie
 	\label{fig:s2}
 \end{figure}
 
-Figure \ref{fig:s2} shows the four most significant coefficients when we apply image compression using Haar Wavelet Basis. The implementation of this compression algorithms can be found in \cite{stollnitz}.
+Figure \ref{fig:s2} shows the four most significant coefficients when we apply image compression using Haar Wavelet Basis. The implementation of this compression algorithm can be found in \cite{stollnitz}.
 
-
-\newpage
 \printbibliography
 
 \end{document}
