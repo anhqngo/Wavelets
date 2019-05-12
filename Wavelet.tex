@@ -62,7 +62,7 @@
 \maketitle
 
 \section{Introduction}
-Trigonometric polynomials, though most widely used in the computation and study of Fourier series, are not the only orthonormal basis for $ L^2 $. It is known that they exhibit slow convergence and large oscillations near discontinuity points, also known as Gibbs Phenomenon (see Figure \ref{fig:squarewave}). Moreover, the Fourier coefficients, and hence the Fourier series expansion, depend on all values of the function; therefore, if a function $ f $ is changed on a small interval, it is possible that all the Fourier coefficients also change.
+Trigonometric polynomials, though most widely used in the computation and study of Fourier series, are not the only orthonormal basis for $ L^2 $. It is known that they exhibit slow convergence and large oscillations near discontinuity points, also known as Gibbs Phenomenon (see Figure \ref{fig:squarewave}). Moreover, the Fourier coefficients, and hence the Fourier series expansion, depend on all values of the function; therefore, if a function $ f $ is changed on a small interval, it is possible that all the Fourier coefficients also change.\footnote{We will talk more about these shortcoming in Section \ref{section:application}.}
 
 \begin{figure}[h]
 	\centering
@@ -71,7 +71,7 @@ Trigonometric polynomials, though most widely used in the computation and study 
 	\label{fig:squarewave}
 \end{figure}
 
-These failings of Fourier series motivate us to look for another expansion with the good properties of trigonometric polynomials (such as orthogonality and translation-invariant) but with better local properties: small change on one interval affects only a few of the series coefficients. This local property that we are seeking is extremely important for the analysis of signals with sudden transitions.
+These failings of Fourier series motivate us to look for another expansion with the good properties of trigonometric polynomials (such as orthogonality and translation-invariant) but with better local properties: small change on one interval affects only a few of the series coefficients. This local property that we are seeking is extremely important for the analysis of signals with sudden transitions \cite{lee}.
 
 Luckily, bases that have such properties do exist, one of which is the Haar wavelet, first proposed in 1909 by Alfréd Haar and further developed in the 1980s (see Figure \ref{fig:haarsystem} for elements in the Haar system). Since then, we have seen rapid development in the theory of wavelets and its practical importance in various fields, namely signal denoising and image processing.
 
@@ -96,7 +96,8 @@ To get started, recall that \emph{$ L^2(\R) $} is a vector space of square integ
 \end{defn}
 
 	Note that each term in the Haar system is constructed by translating and/or dilating the original $ \varPsi $ (again, see Figure \ref{fig:haarsystem}). By this construction, since $ \int_{\R} \varPsi(x)dx = 0 $, it follows that $ \int_{\R} \varPsi_{j,k}(x)dx = 0 $ for $ j,k \in \Z $.
-	Furthermore, it is important to calculate the width and height for each $ \varPsi_{j,k} $. We have $ \varPsi(2^j - k) = 1 $ when $ 0 \leq 2^j - k < \frac{1}{2} $, or equivalently, $ \frac{k}{2^j} \leq x < \frac{k+\frac{1}{2}}{2^j} $. Therefore, in this interval, $ \varPsi_{j,k} = 2^j $. Similar calculations yield:
+	Now, let us calculate the width and height for each $ \varPsi_{j,k} $. Because $ \varPsi(2^j - k) = 1 $ when $ 0 \leq 2^j - k < \frac{1}{2} $, or equivalently, $ \frac{k}{2^j} \leq x < \frac{k+\frac{1}{2}}{2^j} $, in this interval, we have $ \varPsi_{j,k} = 2^j $.	
+	Similar calculations yield:
 	\begin{equation} \label{eq:height}
 		\varPsi_{j,k} = 
 		\begin{cases}
@@ -106,7 +107,7 @@ To get started, recall that \emph{$ L^2(\R) $} is a vector space of square integ
 		\end{cases}
 	\end{equation}
 	
-Now, we will prove that the Haar function $ \varPsi $ satisfies Definition \ref{def:wavelet} of an \emph{orthonormal wavelet}.
+Next, we will present and then prove in later sections that the Haar function $ \varPsi $ satisfies Definition \ref{def:wavelet} of an \emph{orthonormal wavelet}.
 
 \begin{defn}[Orthonormal Wavelet, {\cite[303]{pinsky}}] \label{def:wavelet}
 	If $ \varPsi \in L^2(\R) $, $ \varPsi_{j,k}(x) = 2^{j/2} \varPsi (2^j x-k) $, and the set $ \{ \varPsi_{j,k}: j,k \in \Z \} $ is an orthonormal basis for $ L^2(\R) $, then $ \varPsi $ is called an \emph{orthonormal wavelet}.
@@ -120,7 +121,7 @@ To prove the Haar system is an \textit{orthonormal basis}, we have to show:
 	\end{enumerate}
 
 \section{Orthonormality} \label{section:orthonormality}
-Building upon the terse proof in  \cite{davidson}, this section shows that the Haar system is orthonormal.
+First, we will start out by showing that the Haar system is orthonormal. The proof below is built upon the terse proof in \cite{davidson}, with computations and explanation added.
 
 \begin{lem}[{\cite[409]{davidson}}] \label{lem:orthonormal}
 	The Haar system is an orthonormal set in $ L^2(\R) $.
@@ -153,7 +154,7 @@ Now that we have shown the Haar system is orthonormal, this section will finish 
 	The Haar system $ \{ \varPsi_{j,k} \} $ spans all of $ L^2(\R) $.
 \end{thm}
 
-To prove this theorem, we will start out with $ C_c(\R) $, the set of continuous functions with compact support. Since $ C_c(\R) $ is dense in $ L^2(\R) $\footnote{The proof that $ C_c(\R) $ is dense in $ L^2(\R) $ can be found in \cite[326]{farrell}.}, if we can show that any function $ f \in C_c(\R) $ is in the closure of the span of $ \{\varPsi_{j,k}\} $, then it follows that $ \{ \varPsi_{j,k} \} $ spans $ L^2(\R) $.
+To prove this theorem, we will start out with $ C_c(\R) $, the set of continuous functions with compact support; since $ C_c(\R) $ is dense in $ L^2(\R) $\footnote{The proof that $ C_c(\R) $ is dense in $ L^2(\R) $ can be found in \cite[326]{farrell}.}, if we can show that any function $ f \in C_c(\R) $ is in the closure of the span of $ \{\varPsi_{j,k}\} $, then it follows that $ \{ \varPsi_{j,k} \} $ spans $ L^2(\R) $.
 
 Motivated by \cite[3]{bell} and \cite[516]{davidson}, we will set up the integral transform $ P_nf $ in Section \ref{subsec:integral transform}, and then in Section \ref{subsec:two-sided}, we proceed to define the Haar inner product expansion and prove that it is dense in $ C_c(\R) $. 
 
@@ -225,7 +226,7 @@ Notice that the integral kernel $ K_n $ is dependent on $ \phi $. In order to wr
 
 
 \subsection{Two-sided Haar Representation} \label{subsec:two-sided}
-From Equation \ref{eq:expansion}, we can write
+From Equation (\ref{eq:expansion}), we can write
 \begin{equation} \label{eq:twosided}
 	P_{n+1}f(x) - P_{-m}f(x) = \sum_{j=-m}^{n} \sum_{k \in \Z} \langle f, \varPsi_{j,k} \rangle \varPsi_{j,k}(x).
 \end{equation}
@@ -245,12 +246,12 @@ First, Lemma \ref{lem:average} tells us that the larger the intervals on which w
 			\| P_{-m}f \|_2^2 &= \int_{\R} \left| P_{-m}f(x) \right|^2 dx 
 			= \sum_{k \in \Z} \int_{I_{-m,k}} |P_{-m}f(x)|^2 dx \\
 			&= \sum_{k \in \Z} \int_{I_{-m,k}} \left|2^{-m} \int_{I_{-m,k}} f(y) dy \right|^2 dx
-			= 2^{m}  2^{-2m} \sum_{k \in \Z} \left|\int_{I_{-m,k}} f(y) dy \right|^2 dx.
+			= 2^{m}  2^{-2m} \sum_{k \in \Z} \left|\int_{I_{-m,k}} f(y) dy \right|^2.
 		\end{align*}
 		Since $ f $ is only supported on a subset of $ I_{-m,-1} $ and $ I_{-m,0} $, we have:
 		\begin{align*}
-		\| P_{-m}f \|_2^2	&= 2^{-m} \left( \left|\int_{I_{-m,-1}} f(y) dy \right|^2 dx + \left| \int_{I_{-m,-1}} f(y) dy \right|^2 dx \right) \\
-			&=  2^{-m} \left( \left|\int_{-K}^0 g(y) dy \right|^2 dx + \left| \int_{0}^K f(y) dy \right|^2 dx \right).
+		\| P_{-m}f \|_2^2	&= 2^{-m} \left( \left|\int_{I_{-m,-1}} f(y) dy \right|^2 + \left| \int_{I_{-m,-1}} f(y) dy \right|^2 \right) \\
+			&=  2^{-m} \left( \left|\int_{-K}^0 g(y) dy \right|^2 + \left| \int_{0}^K f(y) dy \right|^2 \right).
 		\end{align*}
 		Note that $ \int_{-K}^0 f(y) dy = \langle f(y),\chi_{[-K,0)}  \rangle $; by Cauchy-Schwarz inequality,
 		\begin{align*}
@@ -260,7 +261,7 @@ First, Lemma \ref{lem:average} tells us that the larger the intervals on which w
 	\end{proof}
 \end{lem}
 
-Now, before proving our next Lemma, recall that $ P_nf(x) $ is equal to the average value of a function $ f $ on a small dyadic interval of length $ 2^{-n} $. Therefore, if we increase $ n $, then the intervals will get smaller, and the average value $ P_nf $ will get closer to $ f $ (see Figure \ref{fig:converge} for the sequence $ \{P_nf\} $ approaching $ f(x) = 0.5 + e^{-x} \sin{2\pi x} $ on the unit interval). 
+Now, before proving our next Lemma, recall that $ P_nf(x) $ is the average value of a function $ f $ on a small dyadic interval of length $ 2^{-n} $. If we increase $ n $, then the intervals will get smaller, and the average value $ P_nf $ will get closer to $ f $ (see Figure \ref{fig:converge} for the sequence $ \{P_nf\} $ approaching $ f(x) = 0.5 + e^{-x} \sin{2\pi x} $ on the unit interval). The proof for Lemma \ref{lem:convergence} follows from this intuition.
 
 \begin{figure}[h]
 	\centering
@@ -327,25 +328,24 @@ Now, we are ready to prove that the Haar system spans all of $ L^2(\R) $:
 
 
 \section{Haar Wavelet's Local Property} \label{section:application}
-In previous sections, we have seen the Haar wavelet has the good properties of trig functions: $ \{ \varPsi_{j,k} \} $ is orthonormal and spans $ L^2(\R) $. Now, in this final section, we will discuss in detail how this Haar wavelet basis helps resolve the issues for which Fourier series work badly.
+So far we have seen the Haar wavelet has the good properties of trig functions: $ \{ \varPsi_{j,k} \} $ is orthonormal and spans $ L^2(\R) $. In this final section, we will discuss in detail how this Haar wavelet basis helps resolve the issues for which Fourier series work badly.
 
-\subsection{Preservation of Series Coefficients} As opposed to the Fourier coefficients, each Haar coefficient $ \langle f,\varPsi_{j,k} \rangle $ depends only on the values of the function on $ \supp \varPsi_{j,k} $. Therefore, when we change a function on an interval $ E $, only the Haar coefficients with $ \supp \varPsi_{j,k} $ that overlaps with $ E $ change; the rest of the Haar coefficients remain unchanged. The same, unfortunately, cannot be said about Fourier series expansion.
+\subsection{Preservation of Series Coefficients} As opposed to the Fourier coefficients, each Haar coefficient $ \langle f,\varPsi_{j,k} \rangle $ depends only on the values of the function on $ \supp \varPsi_{j,k} $. Therefore, when we change a function on an interval $ E $, only the Haar coefficients $ \langle f,\varPsi_{j,k} \rangle $ with $ \supp \varPsi_{j,k} $ overlapping with $ E $ change; the rest of the Haar coefficients remain unchanged. This preservation of series coefficients is desired when we want to modify the pitch of a signal at a point in time, yet unfortunately it does not apply to Fourier series.
 
 \begin{exmp}
 	Consider $ f(x) = 0.5 + e^{-x} \sin{2\pi x} $ and $ g(x) = f(x) + 0.1 \chi_{[0.6,0.61)} $.
 \end{exmp}
 
-Using \verb|Mathematica|, we calculate the first 100 Fourier coefficients $ A_n $ of $ f(x) $ and $ g(x) $ and notice that all coefficients change (see Figure \ref{fig:fouriercoeff}). Although these changes are small, they pose a challenge to the computation of Fourier series approximations when we want to modify the pitch of a signal at a given time.
-
+Using \verb|Mathematica|, we notice that all of the first 100 Fourier coefficients $ A_n $ of $ f(x) $ and $ g(x) $ change (see Figure \ref{fig:fouriercoeff}). Although these changes are small, they pose unnecessary recalculations to the computation of Fourier series.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\linewidth]{img/fourier_coeff}
+	\includegraphics[width=0.76\linewidth]{img/fourier_coeff3}
 	\caption{Fourier coefficients $ A_n $ of $ f(x) $ and $ g(x) $}
 	\label{fig:fouriercoeff}
 \end{figure}
 
 \subsection{Gibbs Phenomenon}
-Since the square wave presented in Figure \ref{fig:squarewave} is a piecewise constant function, we can be certain that there is no Gibbs phenomenon when we approximate using the Haar wavelet basis, for we can always translate or dilate Haar functions to obtain the square wave. For a more general case, it turns out that the Haar series expansions does not exhibit Gibbs phenomenon when approximating any $ f \in L^2(\R) $ either. The proof for this claim falls outside the scope of this paper; however, it can be found in \cite[Chap. 5]{raeen} and \cite{kelly}.
+Since the square wave presented in Figure \ref{fig:squarewave} is a piecewise constant function, we can be certain that there is no Gibbs phenomenon when we approximate using the Haar wavelet basis, for we can always translate/dilate Haar functions to obtain the wave. For a more general case, it turns out that the Haar series expansions does not exhibit Gibbs phenomenon when approximating any $ f \in L^2(\R) $ either\footnote{The proof for this claim can be found in \cite[Chap. 5]{raeen} and \cite{kelly}.}. This property is highly desirable in signal processing since it does not cause clipping from the large oscillations near discontinuity points, as opposed to signal processing with Fourier series.
 
 \printbibliography
 
